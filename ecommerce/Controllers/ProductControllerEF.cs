@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ecommerce.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class ProductController: ControllerBase
+    
+    public class ProductController: BasicApiController
     {
         DataContextEF entityFramework;
         IConfiguration _config= new ConfigurationBuilder()
@@ -25,6 +24,7 @@ namespace ecommerce.Controllers
         public ActionResult<Product> ProdWithId(int id)
         {
             Product? RequiredProduct= entityFramework?.Products?.Find(id);
+            if(RequiredProduct==null) return NotFound();
             return Ok(RequiredProduct);
         }
     }
